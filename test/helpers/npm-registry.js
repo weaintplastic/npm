@@ -39,16 +39,16 @@ async function start() {
       minTimeout: 1000,
       factor: 2,
     });
-  } catch (error) {
+  } catch (_) {
     throw new Error(`Couldn't start npm-docker-couchdb after 2 min`);
   }
 
   // Create user
   await got(`http://${SERVER_HOST}:${SERVER_PORT}/_users/org.couchdb.user:${NPM_USERNAME}`, {
-    json: true,
-    auth: `${COUCHDB_USER}:${COUCHDB_PASSWORD}`,
+    username: COUCHDB_USER,
+    password: COUCHDB_PASSWORD,
     method: 'PUT',
-    body: {
+    json: {
       _id: `org.couchdb.user:${NPM_USERNAME}`,
       name: NPM_USERNAME,
       roles: [],
